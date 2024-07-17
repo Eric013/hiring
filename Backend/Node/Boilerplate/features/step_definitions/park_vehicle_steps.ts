@@ -1,6 +1,6 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import assert from 'assert';
-import { Location } from '../../src/Domain/Location';
+import { Location } from '../../src/Domain/Entities/Location';
 import { ParkVehicleCommand } from '../../src/App/Commands/ParkVehicleCommand';
 import { VehicleIsAlreadyParkedAtLocationError } from '../../src/Domain/Errors';
 import { locationData } from '../fixtures/mock';
@@ -33,7 +33,7 @@ When('I try to park my vehicle at this location', function () {
 });
 
 Then('the known location of my vehicle should verify this location', function (this: CucumberContext) {
-    const vehicleLocation = this.fleet.getVehicleLocation(this.vehicle);
+    const vehicleLocation = this.fleet.getVehicle(this.vehicle.plateNumber)?.getLocation();
     assert.strictEqual(vehicleLocation?.latitude, this.location.latitude);
     assert.strictEqual(vehicleLocation?.longitude, this.location.longitude);
     assert.strictEqual(vehicleLocation?.altitude, this.location.altitude);

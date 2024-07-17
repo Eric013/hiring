@@ -1,6 +1,6 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import assert from 'assert';
-import { Fleet } from '../../src/Domain/Fleet';
+import { Fleet } from '../../src/Domain/Entities/Fleet';
 import { RegisterVehicleCommand } from '../../src/App/Commands/RegisterVehicleCommand';
 import { FleetNotFoundError, VehicleAlreadyRegisteredError } from '../../src/Domain/Errors';
 import { fleetData } from '../fixtures/mock';
@@ -34,8 +34,8 @@ When('I try to register this vehicle into my fleet', function () {
     }
 });
 
-Then('this vehicle should be part of my vehicle fleet', function (this: CucumberContext) {
-    const fleetFound = this.fleetRepository.findById(this.fleet.id);
+Then('this vehicle should be part of my vehicle fleet', async function (this: CucumberContext) {
+    const fleetFound = await this.fleetRepository.findById(this.fleet.id);
     if(!fleetFound) {
         throw new FleetNotFoundError();
     }

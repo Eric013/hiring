@@ -1,6 +1,6 @@
 import { Given } from "@cucumber/cucumber";
-import { Vehicle } from "../../src/Domain/Vehicle";
-import { Fleet } from "../../src/Domain/Fleet";
+import { Vehicle } from "../../src/Domain/Entities/Vehicle";
+import { Fleet } from "../../src/Domain/Entities/Fleet";
 import { fleetData, vehicleData } from "../fixtures/mock";
 
 Given('my fleet', function () {

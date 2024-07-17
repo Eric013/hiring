@@ -21,3 +21,12 @@ export const locationData = {
         altitude: 0
     }
 };
+
+export const userData = {
+    user1: {
+        id: 'user1'
+    },
+    user2: {
+        id: 'user2'
+    }
+};

@@ -6,7 +6,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
     "outDir": "./dist"
   },
-  "include": ["src/**/*.ts", "features/**/*.ts"]
+  "include": ["src/**/*.ts", "features/**/*.ts"],
+  "exclude": ["node_modules"]
 }

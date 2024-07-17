@@ -1,4 +1,4 @@
-import { Location } from "../../Domain/Location";
+import { Location } from "../../Domain/Entities/Location";
 
 export class ParkVehicleCommand {
   constructor(
