@@ -1,8 +1,4 @@
-import {
-    VehicleAlreadyRegisteredError,
-    VehicleIsAlreadyParkedAtLocationError,
-    VehicleNotFoundError,
-} from '../Errors';
+import { VehicleAlreadyRegisteredError, VehicleNotFoundError } from '../Errors';
 import { Location } from './Location';
 import { Vehicle } from './Vehicle';
 

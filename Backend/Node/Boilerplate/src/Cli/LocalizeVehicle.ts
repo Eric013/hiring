@@ -1,6 +1,6 @@
 import { AbstractRepositoryFactory } from '../Domain/Factories/AbstractRepositoryFactory';
 import { ParkVehicleHandler } from '../App/Handlers/ParkVehicleHandler';
-import { Location } from '../Domain/Entities/Location';
+import { Location } from '../Domain/Models/Location';
 
 export const localizeVehicleCommandAction = async (
     fleetId: string,

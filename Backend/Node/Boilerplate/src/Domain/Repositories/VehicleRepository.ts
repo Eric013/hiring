@@ -1,5 +1,5 @@
-import { Vehicle } from './../Entities/Vehicle';
-import { Location } from './../Entities/Location';
+import { Vehicle } from '../Models/Vehicle';
+import { Location } from '../Models/Location';
 
 export interface VehicleRepository {
     findByPlateNumber(plateNumber: string): Promise<Vehicle | undefined>;

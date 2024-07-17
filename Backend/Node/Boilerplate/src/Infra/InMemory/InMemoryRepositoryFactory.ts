@@ -7,15 +7,15 @@ import { InMemoryUserRepository } from '../InMemory/InMemoryUserRepository';
 import { InMemoryVehicleRepository } from '../InMemory/InMemoryVehicleRepository';
 
 export class InMemoryRepositoryFactory implements RepositoryFactory {
-  createFleetRepository(): FleetRepository {
-    return new InMemoryFleetRepository();
-  }
+    createFleetRepository(): FleetRepository {
+        return new InMemoryFleetRepository();
+    }
 
-  createUserRepository(): UserRepository {
-    return new InMemoryUserRepository();
-  }
+    createUserRepository(): UserRepository {
+        return new InMemoryUserRepository();
+    }
 
-  createVehicleRepository(): VehicleRepository {
-    return new InMemoryVehicleRepository();
-  }
+    createVehicleRepository(): VehicleRepository {
+        return new InMemoryVehicleRepository();
+    }
 }

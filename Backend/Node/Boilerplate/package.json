@@ -19,7 +19,8 @@
     "build": "tsc",
     "start": "node dist/src/main.js",
     "cli": "node dist/src/cli/index.js",
-    "test": "cucumber-js --profile default"
+    "test": "cucumber-js --profile default",
+    "lint": "eslint --fix "
   },
   "dependencies": {
     "commander": "^12.1.0",

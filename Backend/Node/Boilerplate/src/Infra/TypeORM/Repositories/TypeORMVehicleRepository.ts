@@ -1,9 +1,12 @@
 import { AppDataSource } from '../../../../datasource';
 import { VehicleRepository } from '../../../Domain/Repositories/VehicleRepository';
 import { VehicleEntity } from '../Entities/VehicleEntity';
-import { Vehicle } from '../../../Domain/Entities/Vehicle';
-import { Location } from '../../../Domain/Entities/Location';
-import { VehicleIsAlreadyParkedAtLocationError, VehicleNotFoundError } from '../../../Domain/Errors';
+import { Vehicle } from '../../../Domain/Models/Vehicle';
+import { Location } from '../../../Domain/Models/Location';
+import {
+    VehicleIsAlreadyParkedAtLocationError,
+    VehicleNotFoundError,
+} from '../../../Domain/Errors';
 
 export class TypeORMVehicleRepository implements VehicleRepository {
     private repository = AppDataSource.getRepository(VehicleEntity);
@@ -49,18 +52,24 @@ export class TypeORMVehicleRepository implements VehicleRepository {
         }
 
         const currentLocationIfIsExist = vehicleFound.getLocation();
-        if(currentLocationIfIsExist && currentLocationIfIsExist.equals(location)) {
+        if (
+            currentLocationIfIsExist &&
+            currentLocationIfIsExist.equals(location)
+        ) {
             throw new VehicleIsAlreadyParkedAtLocationError();
         }
 
         vehicleFound.setLocation(location);
 
-        await this.repository.update({plateNumber: vehicleFound.plateNumber}, {
-            location: {
-                latitude: location.latitude,
-                longitude: location.longitude,
-                altitude: location.altitude || 0,
-            }
-        });
+        await this.repository.update(
+            { plateNumber: vehicleFound.plateNumber },
+            {
+                location: {
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    altitude: location.altitude || 0,
+                },
+            },
+        );
     }
 }

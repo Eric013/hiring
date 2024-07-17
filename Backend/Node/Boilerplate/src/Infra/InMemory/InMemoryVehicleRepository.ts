@@ -1,6 +1,6 @@
 import { VehicleRepository } from '../../Domain/Repositories/VehicleRepository';
-import { Vehicle } from '../../Domain/Entities/Vehicle';
-import { Location } from '../../Domain/Entities/Location';
+import { Vehicle } from '../../Domain/Models/Vehicle';
+import { Location } from '../../Domain/Models/Location';
 
 export class InMemoryVehicleRepository implements VehicleRepository {
     private vehicles: Map<string, Vehicle> = new Map();

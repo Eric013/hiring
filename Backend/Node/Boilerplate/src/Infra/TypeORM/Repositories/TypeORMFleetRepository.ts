@@ -1,14 +1,11 @@
 import { FleetRepository } from '../../../Domain/Repositories/FleetRepository';
 import { FleetEntity } from '../Entities/FleetEntity';
-import { Fleet } from '../../../Domain/Entities/Fleet';
-import { Vehicle } from '../../../Domain/Entities/Vehicle';
+import { Fleet } from '../../../Domain/Models/Fleet';
+import { Vehicle } from '../../../Domain/Models/Vehicle';
 import { AppDataSource } from '../../../../datasource';
-import { Location } from '../../../Domain/Entities/Location';
+import { Location } from '../../../Domain/Models/Location';
 import { VehicleEntity } from '../Entities/VehicleEntity';
-import {
-    FleetNotFoundError,
-    VehicleAlreadyRegisteredError,
-} from '../../../Domain/Errors';
+import { FleetNotFoundError } from '../../../Domain/Errors';
 
 export class TypeORMFleetRepository implements FleetRepository {
     private repository = AppDataSource.getRepository(FleetEntity);
@@ -93,7 +90,11 @@ export class TypeORMFleetRepository implements FleetRepository {
             await this.vehicleRepository.save(vehicleEntity);
         }
 
-        if(!fleetEntity.vehicles.some((v) => v.plateNumber === vehicle.plateNumber)) {
+        if (
+            !fleetEntity.vehicles.some(
+                (v) => v.plateNumber === vehicle.plateNumber,
+            )
+        ) {
             fleetEntity.vehicles.push(vehicleEntity);
             await this.repository.save(fleetEntity);
         }

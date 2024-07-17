@@ -1,4 +1,4 @@
-import { User } from '../Entities/User';
+import { User } from '../Models/User';
 
 export interface UserRepository {
     findById(userId: string): Promise<User | undefined>;

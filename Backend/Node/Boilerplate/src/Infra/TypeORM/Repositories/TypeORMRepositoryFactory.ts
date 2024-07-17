@@ -7,15 +7,15 @@ import { TypeORMUserRepository } from './TypeORMUserRepository';
 import { TypeORMVehicleRepository } from './TypeORMVehicleRepository';
 
 export class TypeORMRepositoryFactory implements RepositoryFactory {
-  createFleetRepository(): FleetRepository {
-    return new TypeORMFleetRepository();
-  }
+    createFleetRepository(): FleetRepository {
+        return new TypeORMFleetRepository();
+    }
 
-  createUserRepository(): UserRepository {
-    return new TypeORMUserRepository();
-  }
+    createUserRepository(): UserRepository {
+        return new TypeORMUserRepository();
+    }
 
-  createVehicleRepository(): VehicleRepository {
-    return new TypeORMVehicleRepository();
-  }
+    createVehicleRepository(): VehicleRepository {
+        return new TypeORMVehicleRepository();
+    }
 }

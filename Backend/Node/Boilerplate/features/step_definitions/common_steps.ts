@@ -1,7 +1,7 @@
-import { Given } from "@cucumber/cucumber";
-import { Vehicle } from "../../src/Domain/Entities/Vehicle";
-import { Fleet } from "../../src/Domain/Entities/Fleet";
-import { fleetData, vehicleData } from "../fixtures/mock";
+import { Given } from '@cucumber/cucumber';
+import { Vehicle } from '../../src/Domain/Models/Vehicle';
+import { Fleet } from '../../src/Domain/Models/Fleet';
+import { fleetData, vehicleData } from '../fixtures/mock';
 
 Given('my fleet', function () {
     this.fleet = new Fleet(fleetData.fleet1.id);

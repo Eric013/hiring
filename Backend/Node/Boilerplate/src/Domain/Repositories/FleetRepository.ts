@@ -1,5 +1,5 @@
-import { Fleet } from '../Entities/Fleet';
-import { Vehicle } from '../Entities/Vehicle';
+import { Fleet } from '../Models/Fleet';
+import { Vehicle } from '../Models/Vehicle';
 
 export interface FleetRepository {
     findById(fleetId: string): Promise<Fleet | undefined>;

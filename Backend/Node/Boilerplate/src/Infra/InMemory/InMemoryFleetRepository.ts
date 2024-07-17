@@ -1,5 +1,5 @@
-import { Fleet } from '../../Domain/Entities/Fleet';
-import { Vehicle } from '../../Domain/Entities/Vehicle';
+import { Fleet } from '../../Domain/Models/Fleet';
+import { Vehicle } from '../../Domain/Models/Vehicle';
 import { FleetRepository } from '../../Domain/Repositories/FleetRepository';
 
 export class InMemoryFleetRepository implements FleetRepository {

@@ -1,22 +1,30 @@
-import { FleetNotFoundError, VehicleAlreadyRegisteredError } from '../../Domain/Errors';
-import { Vehicle } from '../../Domain/Entities/Vehicle';
+import {
+    FleetNotFoundError,
+    VehicleAlreadyRegisteredError,
+} from '../../Domain/Errors';
+import { Vehicle } from '../../Domain/Models/Vehicle';
 import { RegisterVehicleCommand } from '../Commands/RegisterVehicleCommand';
 import { FleetRepository } from '../../Domain/Repositories/FleetRepository';
 import { VehicleRepository } from '../../Domain/Repositories/VehicleRepository';
 
 export class RegisterVehicleHandler {
-    constructor(private fleetRepository: FleetRepository, private vehicleRepository: VehicleRepository) {}
+    constructor(
+        private fleetRepository: FleetRepository,
+        private vehicleRepository: VehicleRepository,
+    ) {}
 
     async handle(command: RegisterVehicleCommand): Promise<void> {
         const fleet = await this.fleetRepository.findById(command.fleetId);
-        if(!fleet) {
+        if (!fleet) {
             throw new FleetNotFoundError();
         }
 
-        let vehicle = await this.vehicleRepository.findByPlateNumber(command.plateNumber);
-        if(!vehicle) {
+        let vehicle = await this.vehicleRepository.findByPlateNumber(
+            command.plateNumber,
+        );
+        if (!vehicle) {
             vehicle = new Vehicle(command.plateNumber);
-        } else if(fleet.getVehicle(vehicle.plateNumber)) {
+        } else if (fleet.getVehicle(vehicle.plateNumber)) {
             throw new VehicleAlreadyRegisteredError();
         }
 
