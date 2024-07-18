@@ -1,4 +1,5 @@
 import { VehicleAlreadyRegisteredError, VehicleNotFoundError } from '../Errors';
+import { IdGenerator } from '../Utils/IdGenerator';
 import { Location } from './Location';
 import { Vehicle } from './Vehicle';
 
@@ -17,7 +18,7 @@ export class Fleet {
             );
         }
 
-        this.id = id ?? `fleet-${Math.random().toString(36).substring(7)}`;
+        this.id = id ?? IdGenerator.generate('fleet');
     }
 
     getVehicles(): Vehicle[] {

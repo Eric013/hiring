@@ -1,5 +1,6 @@
 import { AbstractRepositoryFactory } from '../Domain/Factories/AbstractRepositoryFactory';
 import { RegisterVehicleHandler } from '../App/Handlers/RegisterVehicleHandler';
+import { VehicleService } from '../App/Services/VehicleService';
 
 export const registerVehicleCommandAction = async (
     fleetId: string,
@@ -9,10 +10,12 @@ export const registerVehicleCommandAction = async (
         process.env.STORAGE_TYPE === 'db' ? 'database' : 'memory',
     );
 
-    const handler = new RegisterVehicleHandler(
-        repositoryFactory.createFleetRepository(),
+    const vehicleService = new VehicleService(
         repositoryFactory.createVehicleRepository(),
+        repositoryFactory.createFleetRepository(),
     );
+
+    const handler = new RegisterVehicleHandler(vehicleService);
 
     await handler.handle({ fleetId, plateNumber: vehiclePlateNumber });
     console.log(`Vehicle ${vehiclePlateNumber} registered in fleet ${fleetId}`);

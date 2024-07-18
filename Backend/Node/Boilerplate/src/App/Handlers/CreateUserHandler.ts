@@ -1,12 +1,11 @@
-import { UserRepository } from '../../Domain/Repositories/UserRepository';
+import { UserService } from './../../Domain/Services/UserService';
 import { User } from '../../Domain/Models/User';
 import { CreateUserCommand } from '../Commands/CreateUserCommand';
 
 export class CreateUserHandler {
-    constructor(private userRepository: UserRepository) {}
+    constructor(private userService: UserService) {}
 
     async handle(command: CreateUserCommand): Promise<void> {
-        const user = new User(command.userId, command.userName);
-        await this.userRepository.save(user);
+        await this.userService.createUser(command.userId, command.userName);
     }
 }

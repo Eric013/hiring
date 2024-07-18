@@ -1,45 +1,13 @@
-import {
-    FleetNotFoundError,
-    VehicleIsAlreadyParkedAtLocationError,
-    VehicleNotAPartOfFleetError,
-    VehicleNotFoundError,
-} from '../../Domain/Errors';
-import { FleetRepository } from '../../Domain/Repositories/FleetRepository';
 import { ParkVehicleCommand } from '../Commands/ParkVehicleCommand';
-import { VehicleRepository } from '../../Domain/Repositories/VehicleRepository';
+import { VehicleService } from '../Services/VehicleService';
 
 export class ParkVehicleHandler {
-    constructor(
-        private fleetRepository: FleetRepository,
-        private vehicleRepository: VehicleRepository,
-    ) {}
+    constructor(private vehicleService: VehicleService) {}
 
     async handle(command: ParkVehicleCommand): Promise<void> {
-        const fleet = await this.fleetRepository.findById(command.fleetId);
-        if (!fleet) {
-            throw new FleetNotFoundError();
-        }
-
-        const vehicle = await this.vehicleRepository.findByPlateNumber(
+        await this.vehicleService.parkVehicle(
+            command.fleetId,
             command.vehiclePlateNumber,
-        );
-        if (!vehicle) {
-            throw new VehicleNotFoundError();
-        }
-
-        const vehicleExistsInFleet = fleet.getVehicle(vehicle.plateNumber);
-        if (!vehicleExistsInFleet) {
-            throw new VehicleNotAPartOfFleetError();
-        }
-
-        if (vehicleExistsInFleet.getLocation()?.equals(command.location)) {
-            throw new VehicleIsAlreadyParkedAtLocationError();
-        }
-
-        vehicleExistsInFleet.park(command.location);
-
-        this.vehicleRepository.addLocation(
-            vehicleExistsInFleet,
             command.location,
         );
     }

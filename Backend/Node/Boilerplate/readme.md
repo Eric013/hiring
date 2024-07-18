@@ -11,6 +11,7 @@ After installing the dependencies you can run the tests with this command `yarn 
 
 # Running CLI
 yarn build
+./fleet.js create-user <userId> <username>
 ./fleet.js create <userId>
 ./fleet.js register-vehicle <fleetId> <vehiclePlateNumber>
 ./fleet.js localize-vehicle <fleetId> <vehiclePlateNumber> <lat> <lng> [alt]
