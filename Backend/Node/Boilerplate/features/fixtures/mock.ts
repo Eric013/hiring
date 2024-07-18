@@ -1,15 +1,21 @@
+import { User } from '../../src/Domain/Models/User';
+import { Vehicle } from '../../src/Domain/Models/Vehicle';
+
 export const fleetData = {
     fleet1: {
-        id: 'fleet1',
+        id: 'fleet-1',
     },
     fleet2: {
-        id: 'fleet2',
+        id: 'fleet-2',
     },
 };
 
-export const vehicleData = {
+export const vehicleData: { [key: string]: Pick<Vehicle, 'plateNumber'> } = {
     vehicle1: {
-        plateNumber: 'ABC123',
+        plateNumber: 'AB123CD',
+    },
+    vehicle2: {
+        plateNumber: 'EF456GH',
     },
 };
 
@@ -22,11 +28,13 @@ export const locationData = {
     },
 };
 
-export const userData = {
+export const userData: { [key: string]: User } = {
     user1: {
-        id: 'user1',
+        id: 'user-1',
+        name: 'John Doe',
     },
     user2: {
-        id: 'user2',
+        id: 'user-2',
+        name: 'Jane Doe',
     },
 };

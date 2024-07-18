@@ -1,3 +1,7 @@
+import {
+    FleetNotFoundError,
+    VehicleAlreadyRegisteredError,
+} from '../../Domain/Errors';
 import { Fleet } from '../../Domain/Models/Fleet';
 import { Vehicle } from '../../Domain/Models/Vehicle';
 import { FleetRepository } from '../../Domain/Repositories/FleetRepository';
@@ -14,7 +18,17 @@ export class InMemoryFleetRepository implements FleetRepository {
     }
 
     async addVehicle(fleet: Fleet, vehicle: Vehicle): Promise<void> {
-        fleet.registerVehicle(vehicle);
-        await this.save(fleet);
+        const fleetFound = this.fleets.get(fleet.id);
+        if (!fleetFound) {
+            throw new FleetNotFoundError();
+        }
+
+        if (this.fleets.get(vehicle.plateNumber)) {
+            throw new VehicleAlreadyRegisteredError();
+        }
+
+        fleetFound.registerVehicle(vehicle);
+        this.fleets.set(fleet.id, fleetFound);
+        Promise.resolve();
     }
 }

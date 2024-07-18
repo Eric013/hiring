@@ -17,13 +17,13 @@ export class FleetService implements IFleetService {
         private vehicleRepository: VehicleRepository,
     ) {}
 
-    async createFleet(userId: string): Promise<Fleet> {
+    async createFleet(userId: string, fleetId?: string): Promise<Fleet> {
         const userFound = await this.userRepository.findById(userId);
         if (!userFound) {
             throw new UserNotFoundError();
         }
 
-        const fleet = new Fleet(userFound.id);
+        const fleet = new Fleet(userFound.id, fleetId);
         await this.fleetRepository.save(fleet);
         return fleet;
     }
@@ -38,11 +38,12 @@ export class FleetService implements IFleetService {
             await this.vehicleRepository.findByPlateNumber(plateNumber);
         if (!vehicle) {
             vehicle = new Vehicle(plateNumber);
+            await this.vehicleRepository.save(vehicle);
         } else if (fleet.getVehicle(plateNumber)) {
             throw new VehicleAlreadyRegisteredError();
         }
 
-        fleetFound.registerVehicle(vehicle);
+        // fleetFound.registerVehicle(vehicle);
         await this.fleetRepository.addVehicle(fleetFound, vehicle);
     }
 

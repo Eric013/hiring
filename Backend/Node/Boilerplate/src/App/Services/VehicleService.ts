@@ -34,7 +34,6 @@ export class VehicleService implements IVehicleService {
             throw new VehicleAlreadyRegisteredError();
         }
 
-        fleetFound.registerVehicle(vehicle);
         await this.fleetRepository.addVehicle(fleetFound, vehicle);
         return vehicle;
     }
@@ -58,6 +57,7 @@ export class VehicleService implements IVehicleService {
         const vehicleExistsInFleet = fleetFound.getVehicle(
             vehicleFound.plateNumber,
         );
+
         if (!vehicleExistsInFleet) {
             throw new VehicleNotAPartOfFleetError();
         }
