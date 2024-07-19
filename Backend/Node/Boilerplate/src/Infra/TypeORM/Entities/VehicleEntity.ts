@@ -1,7 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    Unique,
+} from 'typeorm';
 import { FleetEntity } from './FleetEntity';
 
 @Entity('Vehicle')
+@Unique(['plateNumber'])
 export class VehicleEntity {
     @PrimaryGeneratedColumn('uuid')
     id!: string;

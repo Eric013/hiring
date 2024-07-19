@@ -1,5 +1,4 @@
 import { UserService } from './../../Domain/Services/UserService';
-import { User } from '../../Domain/Models/User';
 import { CreateUserCommand } from '../Commands/CreateUserCommand';
 
 export class CreateUserHandler {

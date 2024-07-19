@@ -40,7 +40,7 @@ export class Fleet {
     getVehicle(plateNumber: string): Vehicle | undefined {
         const vehicleFound = this.vehicles.get(plateNumber);
         if (!vehicleFound) {
-            throw new VehicleNotFoundError();
+            return undefined;
         }
 
         return this.vehicles.get(plateNumber);

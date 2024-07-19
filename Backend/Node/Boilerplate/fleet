@@ -1,0 +1,2 @@
+#!/bin/sh
+npx ts-node ./dist/src/Cli/index $@

@@ -34,20 +34,23 @@ export class FleetService implements IFleetService {
             throw new FleetNotFoundError();
         }
 
-        let vehicle =
-            await this.vehicleRepository.findByPlateNumber(plateNumber);
-        if (!vehicle) {
-            vehicle = new Vehicle(plateNumber);
-            await this.vehicleRepository.save(vehicle);
-        } else if (fleet.getVehicle(plateNumber)) {
+        if (fleetFound.getVehicle(plateNumber)) {
             throw new VehicleAlreadyRegisteredError();
         }
 
-        // fleetFound.registerVehicle(vehicle);
+        let vehicle =
+            await this.vehicleRepository.findByPlateNumber(plateNumber);
+
+        if (!vehicle) {
+            vehicle = new Vehicle(plateNumber);
+            await this.vehicleRepository.save(vehicle);
+        }
+
+        fleetFound.registerVehicle(vehicle);
         await this.fleetRepository.addVehicle(fleetFound, vehicle);
     }
 
     async getFleet(fleet: Fleet): Promise<Fleet | undefined> {
-        return this.fleetRepository.findById(fleet.id);
+        return await this.fleetRepository.findById(fleet.id);
     }
 }

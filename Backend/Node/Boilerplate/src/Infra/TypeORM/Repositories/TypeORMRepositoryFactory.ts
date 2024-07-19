@@ -1,4 +1,5 @@
 import { RepositoryFactory } from '../../../Domain/Factories/RepositoryFactory';
+import { User } from '../../../Domain/Models/User';
 import { FleetRepository } from '../../../Domain/Repositories/FleetRepository';
 import { UserRepository } from '../../../Domain/Repositories/UserRepository';
 import { VehicleRepository } from '../../../Domain/Repositories/VehicleRepository';
@@ -11,8 +12,8 @@ export class TypeORMRepositoryFactory implements RepositoryFactory {
         return new TypeORMFleetRepository();
     }
 
-    createUserRepository(): UserRepository {
-        return new TypeORMUserRepository();
+    createUserRepository(users?: User[]): UserRepository {
+        return new TypeORMUserRepository(users);
     }
 
     createVehicleRepository(): VehicleRepository {

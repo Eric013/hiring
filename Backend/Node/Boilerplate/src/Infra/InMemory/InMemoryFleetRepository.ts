@@ -27,7 +27,6 @@ export class InMemoryFleetRepository implements FleetRepository {
             throw new VehicleAlreadyRegisteredError();
         }
 
-        fleetFound.registerVehicle(vehicle);
         this.fleets.set(fleet.id, fleetFound);
         Promise.resolve();
     }

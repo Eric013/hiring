@@ -1,3 +1,4 @@
+import { RepositoryFactory } from './../src/Domain/Factories/RepositoryFactory';
 import { ParkVehicleHandler } from '../src/App/Handlers/ParkVehicleHandler';
 import { RegisterVehicleHandler } from '../src/App/Handlers/RegisterVehicleHandler';
 import { Fleet } from '../src/Domain/Models/Fleet';
@@ -11,6 +12,7 @@ import { UserRepository } from '../src/Domain/Repositories/UserRepository';
 import { User } from '../src/Domain/Models/User';
 
 export interface CucumberContext {
+    repositoryFactory: RepositoryFactory;
     users: User[];
     vehicles: Pick<Vehicle, 'plateNumber'>[];
     fleet: Fleet;

@@ -1,14 +1,13 @@
 import { Given } from '@cucumber/cucumber';
 import { Vehicle } from '../../src/Domain/Models/Vehicle';
-import { fleetData, vehicleData } from '../fixtures/mock';
+import { fleetData, userData, vehicleData } from '../fixtures/mock';
 import { CucumberContext } from '../cucumberContext';
 
 Given('my fleet', async function (this: CucumberContext) {
-    const firstUser = this.users[0];
-    const firstFleet = fleetData.fleet1;
+    const firstUser = await this.userRepository.findById(userData.user1.id);
     this.fleet = await this.fleetService.createFleet(
-        firstUser.id,
-        firstFleet.id,
+        firstUser?.id as string,
+        fleetData.fleet1.id,
     );
 });
 

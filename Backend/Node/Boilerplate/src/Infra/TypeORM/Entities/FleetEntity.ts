@@ -16,10 +16,10 @@ export class FleetEntity {
     userId: string;
 
     @ManyToMany(() => VehicleEntity, (vehicle) => vehicle.fleets, {
-        cascade: true,
+        cascade: false,
     })
     @JoinTable({
-        name: 'fleet_vehicles',
+        name: 'FleetVehicles',
         joinColumn: {
             name: 'fleetId',
             referencedColumnName: 'id',

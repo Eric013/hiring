@@ -26,16 +26,22 @@ export class VehicleService implements IVehicleService {
             throw new FleetNotFoundError();
         }
 
-        let vehicle =
-            await this.vehicleRepository.findByPlateNumber(plateNumber);
-        if (!vehicle) {
-            vehicle = new Vehicle(plateNumber);
-        } else if (fleetFound.getVehicle(vehicle.plateNumber)) {
+        const vehicleAlreadyRegistered = fleetFound.getVehicle(plateNumber);
+
+        if (vehicleAlreadyRegistered) {
             throw new VehicleAlreadyRegisteredError();
         }
 
-        await this.fleetRepository.addVehicle(fleetFound, vehicle);
-        return vehicle;
+        let vehicleExist =
+            await this.vehicleRepository.findByPlateNumber(plateNumber);
+        if (!vehicleExist) {
+            vehicleExist = new Vehicle(plateNumber);
+            await this.vehicleRepository.save(vehicleExist);
+        }
+
+        fleetFound.registerVehicle(vehicleExist);
+        await this.fleetRepository.addVehicle(fleetFound, vehicleExist);
+        return vehicleExist;
     }
 
     async parkVehicle(
@@ -67,7 +73,6 @@ export class VehicleService implements IVehicleService {
         }
 
         vehicleExistsInFleet.park(location);
-
         this.vehicleRepository.addLocation(vehicleExistsInFleet, location);
     }
 

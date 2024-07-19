@@ -35,6 +35,7 @@ export class TypeORMFleetRepository implements FleetRepository {
                         : undefined,
                 ),
         );
+
         return new Fleet(fleetEntity.userId, fleetEntity.id, vehicles);
     }
 
@@ -42,19 +43,28 @@ export class TypeORMFleetRepository implements FleetRepository {
         const fleetEntity = new FleetEntity();
         fleetEntity.id = fleet.id;
         fleetEntity.userId = fleet.userId;
-        fleetEntity.vehicles = fleet.getVehicles().map((vehicle) => {
-            const vehicleEntity = new VehicleEntity();
-            vehicleEntity.plateNumber = vehicle.plateNumber;
-            const location = vehicle.getLocation();
-            if (location) {
-                vehicleEntity.location = {
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                    altitude: location.altitude,
-                };
+
+        fleetEntity.vehicles = [];
+        for (const vehicle of fleet.getVehicles()) {
+            let vehicleEntity = await this.vehicleRepository.findOne({
+                where: { plateNumber: vehicle.plateNumber },
+            });
+            if (!vehicleEntity) {
+                vehicleEntity = new VehicleEntity();
+                vehicleEntity.plateNumber = vehicle.plateNumber;
+                const location = vehicle.getLocation();
+
+                if (location) {
+                    vehicleEntity.location = {
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                        altitude: location.altitude,
+                    };
+                }
+                await this.vehicleRepository.save(vehicleEntity);
             }
-            return vehicleEntity;
-        });
+            fleetEntity.vehicles.push(vehicleEntity);
+        }
         await this.repository.save(fleetEntity);
     }
 
@@ -65,14 +75,13 @@ export class TypeORMFleetRepository implements FleetRepository {
             },
             relations: { vehicles: true },
         });
+
         if (!fleetEntity) {
             throw new FleetNotFoundError();
         }
 
         let vehicleEntity = await this.vehicleRepository.findOne({
-            where: {
-                plateNumber: vehicle.plateNumber,
-            },
+            where: { plateNumber: vehicle.plateNumber },
         });
 
         if (!vehicleEntity) {
@@ -90,13 +99,7 @@ export class TypeORMFleetRepository implements FleetRepository {
             await this.vehicleRepository.save(vehicleEntity);
         }
 
-        if (
-            !fleetEntity.vehicles.some(
-                (v) => v.plateNumber === vehicle.plateNumber,
-            )
-        ) {
-            fleetEntity.vehicles.push(vehicleEntity);
-            await this.repository.save(fleetEntity);
-        }
+        fleetEntity.vehicles.push(vehicleEntity);
+        await this.repository.save(fleetEntity);
     }
 }

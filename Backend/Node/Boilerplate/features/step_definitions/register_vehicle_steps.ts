@@ -19,26 +19,28 @@ Given('the fleet of another user', async function (this: CucumberContext) {
 
 Given(
     "this vehicle has been registered into the other user's fleet",
-    function (this: CucumberContext) {
-        const command = new RegisterVehicleCommand(
+    async function (this: CucumberContext) {
+        await this.vehicleService.registerVehicle(
             this.otherFleet.id,
             this.vehicle.plateNumber,
         );
-        this.registerVehicleHandler.handle(command);
     },
 );
 
-When('I register this vehicle into my fleet', function (this: CucumberContext) {
-    try {
-        const command = new RegisterVehicleCommand(
-            this.fleet.id,
-            this.vehicle.plateNumber,
-        );
-        this.registerVehicleHandler.handle(command);
-    } catch (e) {
-        this.error = e as Error;
-    }
-});
+When(
+    'I register this vehicle into my fleet',
+    async function (this: CucumberContext) {
+        try {
+            const command = new RegisterVehicleCommand(
+                this.fleet.id,
+                this.vehicle.plateNumber,
+            );
+            await this.registerVehicleHandler.handle(command);
+        } catch (e) {
+            this.error = e as Error;
+        }
+    },
+);
 
 When(
     'I try to register this vehicle into my fleet',

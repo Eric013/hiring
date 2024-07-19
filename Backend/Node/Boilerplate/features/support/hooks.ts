@@ -1,22 +1,42 @@
-import { Before } from '@cucumber/cucumber';
+import { AfterAll, Before } from '@cucumber/cucumber';
 
 import { RegisterVehicleHandler } from '../../src/App/Handlers/RegisterVehicleHandler';
 import { ParkVehicleHandler } from '../../src/App/Handlers/ParkVehicleHandler';
 import { VehicleService } from '../../src/App/Services/VehicleService';
-import { InMemoryFleetRepository } from '../../src/Infra/InMemory/InMemoryFleetRepository';
-import { InMemoryVehicleRepository } from '../../src/Infra/InMemory/InMemoryVehicleRepository';
 import { FleetService } from '../../src/App/Services/FleetService';
 import { CucumberContext } from '../cucumberContext';
-import { InMemoryUserRepository } from '../../src/Infra/InMemory/InMemoryUserRepository';
 import { userData, vehicleData } from '../fixtures/mock';
+import { AbstractRepositoryFactory } from '../../src/Domain/Factories/AbstractRepositoryFactory';
 
-Before(function (this: CucumberContext) {
+import {
+    clearDatabase,
+    closeDatabase,
+    initializeDatabase,
+} from '../setup/database';
+
+AfterAll(async function () {
+    await closeDatabase();
+});
+
+Before({ tags: '@memory' }, async function () {
+    this.repositoryFactory = AbstractRepositoryFactory.createFactory('memory');
+});
+
+Before({ tags: '@db' }, async function () {
+    await clearDatabase();
+    await initializeDatabase();
+
+    this.repositoryFactory =
+        AbstractRepositoryFactory.createFactory('database');
+});
+
+Before({ tags: '@memory or @db' }, async function (this: CucumberContext) {
     this.users = [userData.user1, userData.user2];
     this.vehicles = [vehicleData.vehicle1, vehicleData.vehicle2];
 
-    this.fleetRepository = new InMemoryFleetRepository();
-    this.vehicleRepository = new InMemoryVehicleRepository();
-    this.userRepository = new InMemoryUserRepository(this.users);
+    this.fleetRepository = this.repositoryFactory.createFleetRepository();
+    this.vehicleRepository = this.repositoryFactory.createVehicleRepository();
+    this.userRepository = this.repositoryFactory.createUserRepository();
 
     this.fleetService = new FleetService(
         this.fleetRepository,
@@ -32,4 +52,7 @@ Before(function (this: CucumberContext) {
     );
     this.parkVehicleHandler = new ParkVehicleHandler(this.vehicleService);
     this.error = null;
+
+    await this.userRepository.save(userData.user1);
+    await this.userRepository.save(userData.user2);
 });

@@ -8,19 +8,28 @@ To run this project you will need a computer with Node, Typescript and Cucumber 
 
 To install the project, you just have to run `yarn install` to get all the dependencies
 
-Todo: chmod +x fleet.js
-
 ## Running the tests
 
-After installing the dependencies you can run the tests with this command `yarn test`.
+After installing the dependencies you can run the tests with:
+
+- Run test memory:
+`yarn test:memory`
+- Run test database:
+`yarn test:db`
+- Run test memory and database:
+`yarn test:all`
 
 ## Running CLI
 
+copy .env.example to .env
+
+```shell
 yarn build
-./fleet.js create-user <userId> <username>
-./fleet.js create <userId>
-./fleet.js register-vehicle <fleetId> <vehiclePlateNumber>
-./fleet.js localize-vehicle <fleetId> <vehiclePlateNumber> <lat> <lng> [alt]
+./fleet create-user <userId> <username>
+./fleet create <userId>
+./fleet register-vehicle <fleetId> <vehiclePlateNumber>
+./fleet localize-vehicle <fleetId> <vehiclePlateNumber> <lat> <lng> [alt]
+```
 
 ## Step 3
 
@@ -44,11 +53,13 @@ yarn build
 - Plan for a rollback mechanism
 
 I have created a small example in '.github/workflows/ci-cd.yml' using Heroku without considering branching best practices.
+
 - Trigger CI on every pull request to main branches (main, develop),
 - Trigger CI/CD on pushes to the main branch (main),
 - And use path filters to avoid unnecessary builds (e.g., ignore README changes).
 
 In my case I use GitFlow or a simplified version:
+
 - main: production code
 - develop: integration branch
 - feature/*: for new features
